@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using MClient;
 using TMPro;
 using UnityEngine.UI;
 using ConsoleForUnity;
+using Task = System.Threading.Tasks.Task;
 
 public class Client : MonoBehaviour
 {
@@ -73,6 +75,7 @@ public class Client : MonoBehaviour
     {
         mobileClient.StartMessages("Hibernate");
     }
+
     public void SendStandBy()
     {
         mobileClient.StartMessages("StandBy");
@@ -85,12 +88,14 @@ public class Client : MonoBehaviour
     {
         mobileClient.StartMessages("Space");
     }
+
     public void SendWol()
     {
         new WakeOnLan().WakeFunction("00:1E:58:A0:44:B5");
     }
-    public void SendWol2()
+
+    public void SendSaveName()
     {
-        new WakeOnLan().WakeFunction("001E58A044B5");
+        mobileClient.StartMessages("SaveName");
     }
 }
