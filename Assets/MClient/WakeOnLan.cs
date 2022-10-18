@@ -8,13 +8,14 @@ namespace MClient
 {
     public class WakeOnLan
     {
-        string hostname = "";
+        //string hostname = "";
         IPHostEntry entry ;
         string[] ipToString = new string[4];
         
         [DllImport("iphlpapi.dll", ExactSpelling = true)]
         private static extern int SendARP(int destIp, int srcIP, byte[] macAddr, ref uint physicalAddrLen);
-        public void WakeFunction(string MAC_ADDRESS)
+        
+        public static void WakeFunction(string macAddress)
         {
             WOLClass client = new WOLClass();
             client.Connect(new IPAddress(0xffffffff), 0x2fff);
@@ -31,7 +32,7 @@ namespace MClient
                 int i = 0;
                 for (int z = 0; z < 6; z++)
                 {
-                    bytes[counter++] = byte.Parse(MAC_ADDRESS.Substring(i, 2), NumberStyles.HexNumber);
+                    bytes[counter++] = byte.Parse(macAddress.Substring(i, 2), NumberStyles.HexNumber);
                     i += 2;
                 }
             }
