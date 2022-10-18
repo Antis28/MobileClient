@@ -20,7 +20,7 @@ namespace MClient
             } catch (Exception e) { ConsoleInUnityView.ShowError(e); }
         }
 
-        static void Connect(String server, String message)
+        static async void  Connect(String server, String message)
         {
             try
             {
@@ -29,26 +29,28 @@ namespace MClient
                 // Настраиваем его на IP нашего сервера и тот же порт.
 
                 Int32 port = 9595;
-                TcpClient client = new TcpClient(server, port);
+                TcpClient client = new TcpClient();
+                await client.ConnectAsync(server, port);
+                
                 // Переводим наше сообщение в UTF8, а затем в массив Byte.
                 Byte[] data = System.Text.Encoding.UTF8.GetBytes(message);
                 // Получаем поток для чтения и записи данных.
                 NetworkStream stream = client.GetStream();
                 // Отправляем сообщение нашему серверу. 
-                stream.Write(data, 0, data.Length);
+                await stream.WriteAsync(data, 0, data.Length);
                 ConsoleInTextView.ShowSend(message);
 
                 // Получаем ответ от сервера.
                 // Буфер для хранения принятого массива bytes.
                 data = new Byte[256];
                 // Строка для хранения полученных ASCII данных.
-                String responseData = String.Empty;
                 // Читаем первый пакет ответа сервера. 
                 // Можно читать всё сообщение.
                 // Для этого надо организовать чтение в цикле как на сервере.
-                Int32 bytes = stream.Read(data, 0, data.Length);
-                responseData = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
+                Int32 bytes = await stream.ReadAsync(data, 0, data.Length);
+                var responseData = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
                 ConsoleInTextView.ShowMessage(responseData);
+                
                 // Закрываем всё.
                 stream.Close();
                 client.Close();
