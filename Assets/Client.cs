@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -91,7 +92,11 @@ public class Client : MonoBehaviour
 
     public void SendWol()
     {
-        new WakeOnLan().WakeFunction("00:1E:58:A0:44:B5");
+        try { WakeOnLan.WakeFunction("001E58A044B5"); } catch (Exception e)
+        {
+            ConsoleInTextView.ShowError($"формат : 001E58A044B5  \n{e.Message}");
+            ConsoleInUnityView.ShowError(e);
+        }
     }
 
     public void SendSaveName()
