@@ -54,6 +54,10 @@ namespace ConsoleForUnity
         {
             LogInText($"Error: {e.Message}");
         }
+        public static void ShowError(string message)
+        {
+            LogInText($"Error: {message}");
+        }
 
         public static void WaitUserInput()
         {
