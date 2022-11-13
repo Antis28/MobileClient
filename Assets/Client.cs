@@ -15,6 +15,7 @@ public class Client : MonoBehaviour
     private TextMeshProUGUI txt;
 
     private MobileClient mobileClient;
+    //private MobileServer mobileServer;
 
     // Start is called before the first frame update
     void Start()
@@ -22,10 +23,9 @@ public class Client : MonoBehaviour
         mobileClient = new MobileClient();
         txt.text = "Start";
         ConsoleInTextView.Init(txt);
+        
+        MobileServer.Start();
     }
-
-    // Update is called once per frame
-    void Update() { }
 
     public void SendRight10()
     {
