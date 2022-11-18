@@ -19,7 +19,12 @@ Assets/Plugins/Editor/JetBrains*
 
 
 ### Unity ###
-[Ll]ibrary/
+#[Ll]ibrary/
+/[Ll]ibrary/*/[Aa]rtifacts/
+/[Ll]ibrary/[Aa]rtifacts/
+/Library/*Cache/
+
+
 [Ll]ibrary_/
 [Tt]emp/
 [Oo]bj/
@@ -57,7 +62,7 @@ ExportedObj/
 sysinfo.txt
 
 # Builds
-*.apk
 *.unitypackage
 
 # End of https://www.gitignore.io/api/unity
+
