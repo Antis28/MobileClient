@@ -20,12 +20,14 @@ Assets/Plugins/Editor/JetBrains*
 
 ### Unity ###
 [Ll]ibrary/
+[Ll]ibrary_/
 [Tt]emp/
 [Oo]bj/
 [Bb]uild/
 [Bb]uilds/
 Assets/AssetStoreTools*
 Logs/
+*/[Pp]lugins/
 
 # Visual Studio cache directory
 .vs/
