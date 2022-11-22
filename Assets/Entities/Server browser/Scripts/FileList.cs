@@ -82,7 +82,6 @@ namespace PaneFileBrowser
             }
         }
 
-        
 
         private void DirectoriesView(List<Directory> directories, Directory root)
         {
@@ -93,7 +92,8 @@ namespace PaneFileBrowser
 
             foreach (var directory in directories)
             {
-                var element = CreateFileElementInfo(directory);
+                directory.Root = root;
+                var element = CreateFileElementInfo(directory, root);
                 AddPlate(element);
             }
         }
@@ -112,9 +112,10 @@ namespace PaneFileBrowser
                 }
             };
         }
-        private FileElementInfo CreateFileElementInfo(Directory directory)
+
+        private FileElementInfo CreateFileElementInfo(Directory directory, Directory root)
         {
-            return new FileElementInfo()
+            return new FileElementInfo
             {
                 FileName = directory.Name,
                 DirectoryCount = directory.Directories?.Count ?? 0,

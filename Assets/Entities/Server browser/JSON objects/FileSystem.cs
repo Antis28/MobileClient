@@ -9,21 +9,21 @@ namespace Entities.Server_browser.JSON_objects
     {
         public List<Disk> Disks { get; set; }
         
-        public static explicit operator FileSystem(Directory d)
-        {
-            return new FileSystem()
-            {
-                Disks = d.Directories.Cast<Disk>().ToList()
-            };
-        }
-        public static explicit operator Directory(FileSystem f)
-        {
-            return new Directory()
-            {
-                Name = "Root",
-                Directories = f.Disks.Cast<Directory>().ToList()
-            };
-        }
+        // public static explicit operator FileSystem(Directory d)
+        // {
+        //     return new FileSystem()
+        //     {
+        //         Disks = d.Directories.Cast<Disk>().ToList()
+        //     };
+        // }
+        // public static explicit operator Directory(FileSystem f)
+        // {
+        //     return new Directory()
+        //     {
+        //         Name = "Root",
+        //         Directories = f.Disks.Cast<Directory>().ToList()
+        //     };
+        // }
     }
 
     public class Disk : Directory

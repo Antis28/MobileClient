@@ -46,7 +46,7 @@ namespace PaneFileBrowser
         
         private void ButtonListener()
         {
-            _fileElementInfo.NextLevel();
+            _fileElementInfo.NextLevel?.Invoke();
             Debug.Log("Name : " + _fileElementInfo.FileName);
         }
     }
