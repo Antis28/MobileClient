@@ -3,6 +3,7 @@ using UnityEngine;
 using MClient;
 using TMPro;
 using ConsoleForUnity;
+using PaneFileBrowser;
 using PanelLog;
 
 public class Client : MonoBehaviour
@@ -10,6 +11,8 @@ public class Client : MonoBehaviour
     
     [SerializeField]
     private TMP_InputField ipAddressForServer;
+    [SerializeField]
+    private FileList uiFileList; // для вывода информации JSON файла структуры файловой системы компьютера
 
     private MobileClient _mobileClient;
     //private MobileServer mobileServer;
@@ -25,7 +28,7 @@ public class Client : MonoBehaviour
     public void StartClientAndServer()
     {
         _mobileClient = new MobileClient(ipAddressForServer.text);
-        MobileServer.Start();
+        MobileServer.Start(uiFileList);
     }
 
     public void SendRight10()

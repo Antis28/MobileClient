@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
+using ClientServer;
 using ConsoleForUnity;
+using PaneFileBrowser;
 
 public static class MobileServer
 {
     private static readonly string _localhost = "127.0.0.1";
     private static readonly int _port = 9090;
 
-    public async static void Start()
+    public static async void Start(FileList uiFileList)
     {
         var hostIp = _localhost;
         var host = Dns.GetHostEntry(Dns.GetHostName());
@@ -21,10 +23,13 @@ public static class MobileServer
         
         var server = new TcpListener(IPAddress.Parse(hostIp), _port);
         server.Start();
+        var sb = new ServerBrowser(uiFileList);
+        
         while (true)
         {
             var listener = await server.AcceptTcpClientAsync();
             string data = ReadAndSendSuccessAnswer(listener);
+            sb.ShowInBrowser(data);
             ConsoleInTextView.LogInText(data);
         }
     }
