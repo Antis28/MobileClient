@@ -1,13 +1,9 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
 using MClient;
 using TMPro;
-using UnityEngine.UI;
 using ConsoleForUnity;
-using Task = System.Threading.Tasks.Task;
+using PanelLog;
 
 public class Client : MonoBehaviour
 {
@@ -21,7 +17,7 @@ public class Client : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        LogMessageList myMessageList = GameObject.FindObjectOfType<LogMessageList>();
+        LogMessageList myMessageList = FindObjectOfType<LogMessageList>();
         ConsoleInTextView.Init(myMessageList);
         ipAddressForServer.text = "192.168.0.101";
     }
