@@ -83,17 +83,15 @@ namespace PaneFileBrowser
         }
 
 
-        private void DirectoriesView(List<Directory> directories, Directory root)
+        private void DirectoriesView(Directory directory)
         {
             _fileList.Clear();
-            if (directories == null) { return; }
+            AddLinkToRoot(directory);
 
-            AddLinkToRoot(root);
-
-            foreach (var directory in directories)
+            foreach (var subDirectory in directory.Directories)
             {
-                directory.Root = root;
-                var element = CreateFileElementInfo(directory, root);
+                subDirectory.Root = directory;
+                var element = CreateFileElementInfo(subDirectory);
                 AddPlate(element);
             }
         }
@@ -107,13 +105,13 @@ namespace PaneFileBrowser
                 FileCount = disk.Files?.Count ?? 0,
                 NextLevel = () =>
                 {
-                    DirectoriesView(disk.Directories, disk);
+                    DirectoriesView(disk);
                     FilesView(disk.Files);
                 }
             };
         }
 
-        private FileElementInfo CreateFileElementInfo(Directory directory, Directory root)
+        private FileElementInfo CreateFileElementInfo(Directory directory)
         {
             return new FileElementInfo
             {
@@ -122,7 +120,7 @@ namespace PaneFileBrowser
                 FileCount = directory.Files?.Count ?? 0,
                 NextLevel = () =>
                 {
-                    DirectoriesView(directory.Directories, directory);
+                    DirectoriesView(directory);
                     FilesView(directory.Files);
                 }
             };
@@ -143,15 +141,21 @@ namespace PaneFileBrowser
                 return;
             }
 
+            if (root == null)
+            {
+                Debug.LogError("root == null");
+                return;
+            }
+
             AddPlate(new FileElementInfo()
             {
                 FileName = root.Name,
-                DirectoryCount = root.Directories?.Count ?? 0,
-                FileCount = root.Files?.Count ?? 0,
+                DirectoryCount = root.Root.Directories?.Count ?? 0,
+                FileCount = root.Root.Files?.Count ?? 0,
                 NextLevel = () =>
                 {
-                    DirectoriesView(root.Directories, root.Root);
-                    FilesView(root.Files);
+                    DirectoriesView(root.Root);
+                    FilesView(root.Root.Files);
                 }
             });
         }
