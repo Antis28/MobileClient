@@ -1,0 +1,46 @@
+﻿{
+  "Disks": [
+    {
+      "Name": "A",
+      "Label": "Arhive",
+      "Directories": [
+        {
+          "Name": "Programs",
+          "Directories": [],
+          "Files": [
+            {
+              "Name": "Make.bat"
+            },
+            {
+              "Name": "startup.io"
+            }
+          ]
+        },
+        {
+          "Name": "Windows"
+        }
+
+      ],
+      "Files": [
+        {
+          "Name": "Make.bat"
+        },
+        {
+          "Name": "startup.io"
+        }
+      ]
+    },
+    {
+      "Name": "D",
+      "Label": "Data",
+      "Directories": [
+        {
+          "Name": "My music"
+        },
+        {
+          "Name": "My video"
+        }
+      ]
+    }
+  ]
+}

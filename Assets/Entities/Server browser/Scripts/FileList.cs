@@ -104,6 +104,7 @@ namespace PaneFileBrowser
                 FileName = $"{disk.Label} ({disk.Name}:)",
                 DirectoryCount = disk.Directories?.Count ?? 0,
                 FileCount = disk.Files?.Count ?? 0,
+                icon = driveIcon,
                 NextLevel = () =>
                 {
                     DirectoriesView(disk);
@@ -119,6 +120,7 @@ namespace PaneFileBrowser
                 FileName = directory.Name,
                 DirectoryCount = directory.Directories?.Count ?? 0,
                 FileCount = directory.Files?.Count ?? 0,
+                icon = directoryIcon,
                 NextLevel = () =>
                 {
                     DirectoriesView(directory);
@@ -137,6 +139,7 @@ namespace PaneFileBrowser
                     FileName = $"{disk.Label} ({disk.Name}:)",
                     DirectoryCount = directory.Directories?.Count ?? 0,
                     FileCount = directory.Files?.Count ?? 0,
+                    icon = driveIcon,
                     NextLevel = () => { DiskView(_fileSystem.Disks); }
                 });
                 return;
@@ -153,6 +156,7 @@ namespace PaneFileBrowser
                 FileName = directory.Name,
                 DirectoryCount = directory.Directories?.Count ?? 0,
                 FileCount = directory.Files?.Count ?? 0,
+                icon = directoryIcon,
                 NextLevel = () =>
                 {
                     DirectoriesView(directory.Root);
@@ -170,6 +174,7 @@ namespace PaneFileBrowser
                 AddPlate(new FileElementInfo()
                 {
                     FileName = file.Name,
+                    icon = fileIcon
                 });
             }
         }

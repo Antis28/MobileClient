@@ -11,6 +11,8 @@ namespace PaneFileBrowser
         [SerializeField]
         private TMP_Text  nameLabel;
         [SerializeField]
+        private Image  iconSprite;
+        [SerializeField]
         private TMP_Text  filesCount;
         [SerializeField]
         private TMP_Text  directoryCount;
@@ -38,7 +40,8 @@ namespace PaneFileBrowser
         {
             _cellIndex = cellIndex;
             _fileElementInfo = fileElementInfo;
-            
+
+            iconSprite.sprite = _fileElementInfo.icon;
             nameLabel.text = _fileElementInfo.FileName;
             filesCount.text = _fileElementInfo.FileCount.ToString();
             directoryCount.text = _fileElementInfo.DirectoryCount.ToString();

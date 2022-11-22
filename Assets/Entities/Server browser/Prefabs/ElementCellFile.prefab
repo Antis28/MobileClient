@@ -700,6 +700,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nameLabel: {fileID: 191149879153688625}
+  iconSprite: {fileID: 7866450500657059127}
   filesCount: {fileID: 8894684414548581614}
   directoryCount: {fileID: 6759766085644508472}
 --- !u!1 &7866450500657059125
@@ -714,7 +715,7 @@ GameObject:
   - component: {fileID: 7866450500657059080}
   - component: {fileID: 7866450500657059127}
   m_Layer: 0
-  m_Name: Image
+  m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

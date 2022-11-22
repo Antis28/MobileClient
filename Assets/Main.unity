@@ -668,6 +668,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ipAddressForServer: {fileID: 1198078995}
+  uiFileList: {fileID: 596033364}
 --- !u!1 &112743765
 GameObject:
   m_ObjectHideFlags: 0
@@ -3024,6 +3025,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1668692719357741546, guid: cab8e2aaccaa1194292fb18e144dcbf4, type: 3}
   m_PrefabInstance: {fileID: 1141962392}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &596033364 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 596033366, guid: cab8e2aaccaa1194292fb18e144dcbf4, type: 3}
+  m_PrefabInstance: {fileID: 1141962392}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 419fb64a52c6e8846a660559b79c82a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &640768342
 GameObject:
   m_ObjectHideFlags: 0
@@ -4804,6 +4816,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1739695153}
     m_Modifications:
+    - target: {fileID: 596033366, guid: cab8e2aaccaa1194292fb18e144dcbf4, type: 3}
+      propertyPath: fileIcon
+      value: 
+      objectReference: {fileID: 21300000, guid: 89f87b95a0cf73b4484ab74fe3f9ea26, type: 3}
+    - target: {fileID: 596033366, guid: cab8e2aaccaa1194292fb18e144dcbf4, type: 3}
+      propertyPath: driveIcon
+      value: 
+      objectReference: {fileID: 21300000, guid: 81da6e5b6342f8f47a5a3a24221306c6, type: 3}
+    - target: {fileID: 596033366, guid: cab8e2aaccaa1194292fb18e144dcbf4, type: 3}
+      propertyPath: directoryIcon
+      value: 
+      objectReference: {fileID: 21300000, guid: 27947666271b231439b4409a81cb5d59, type: 3}
     - target: {fileID: 1455014597769313490, guid: cab8e2aaccaa1194292fb18e144dcbf4, type: 3}
       propertyPath: m_Name
       value: FileScrollList

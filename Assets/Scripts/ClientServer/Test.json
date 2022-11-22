@@ -1,0 +1,96 @@
+{
+  "Disks": [
+    {
+      "Name": "A",
+      "Label": "Arhive",
+      "Directories": [
+        {
+          "Name": "Programs",
+          "Directories": [
+            {
+              "Name": "Text readers",
+              "Directories": [
+                {
+                  "Name": "PdfViewer",
+                  "Directories": [],
+                  "Files": [
+                    {
+                      "Name": "PdfViewer.exe"
+                    },
+                    {
+                      "Name": "Viewer.dll"
+                    }
+                  ]
+                },
+                {
+                  "Name": "Test",
+                  "Files": [
+                    {
+                      "Name": "Test.exe"
+                    },
+                    {
+                      "Name": "Test.dll"
+                    }
+                  ]
+                }
+
+              ]
+            }
+            
+          ],
+          "Files": [
+            {
+              "Name": "Make.bat"
+            },
+            {
+              "Name": "startup.io"
+            }
+          ]
+        },
+        {
+          "Name": "Windows"
+        }
+
+      ],
+      "Files": [
+        {
+          "Name": "Make.bat"
+        },
+        {
+          "Name": "startup.io"
+        }
+      ]
+    },
+    {
+      "Name": "D",
+      "Label": "Data",
+      "Directories": [
+        {
+          "Name": "My music",
+          "Files": [
+            {
+              "Name": "just.mp3"
+            },
+            {
+              "Name": "jack.wav"
+            }
+          ]
+        },
+        {
+          "Name": "My video",
+          "Files": [
+            {
+              "Name": "jurastic.mp4"
+            },
+            {
+              "Name": "pino.mkv"
+            }
+          ]
+        },
+        {
+          "Name": "Misk"
+        }
+      ]
+    }
+  ]
+}
