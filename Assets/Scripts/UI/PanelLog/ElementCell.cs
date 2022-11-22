@@ -34,9 +34,9 @@ namespace DefaultNamespace
         {
             _cellIndex = cellIndex;
             _elementInfo = elementInfo;
-
+            
             nameLabel.text = _elementInfo.Message;
-            idLabel.text = elementInfo.id;
+            idLabel.text = _elementInfo.id;
         }
         
         private void ButtonListener()

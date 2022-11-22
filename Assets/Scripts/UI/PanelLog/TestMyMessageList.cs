@@ -22,12 +22,12 @@ public enum ElementType
 public class TestMyMessageList : MonoBehaviour, IRecyclableScrollRectDataSource
 {
     private int _messageCounter = 1;
-    
+
     [SerializeField]
     private RecyclableScrollRect recyclableScrollRect;
 
     //Data List
-    private List<ElementInfo> _messageList ;
+    private Stack<ElementInfo> _messageList;
 
     //Recyclable scroll rect's data source must be assigned in Awake.
     private void Awake()
@@ -43,32 +43,23 @@ public class TestMyMessageList : MonoBehaviour, IRecyclableScrollRectDataSource
             id = "item : " + _messageCounter++,
             Message = message
         };
-        _messageList.Add(obj);
+        _messageList.Push(obj);
         recyclableScrollRect.ReloadData();
     }
-    
+
     private void InitData()
     {
-        _messageList = new List<ElementInfo>();
+        _messageList = new Stack<ElementInfo>();
         if (_messageList != null) _messageList.Clear();
-        //
-        // string[] genders = { "Male", "Female" };
-        // for (int i = 0; i < _dataLength; i++)
-        // {
-        //     ElementInfo obj = new ElementInfo();
-        //     obj.Message = i + "_Name";
-        //     obj.Path = genders[Random.Range(0, 2)];
-        //     obj.Type = ElementType.Directory;
-        //     _messageList.Add(obj);
-        // }
     }
 
     private void OnValidate()
     {
-        if( recyclableScrollRect == null) Debug.LogAssertion("recyclableScrollRect == null");
+        if (recyclableScrollRect == null) Debug.LogAssertion("recyclableScrollRect == null");
     }
 
     #region DATA-SOURCE
+
     public int GetItemCount()
     {
         return _messageList.Count;
@@ -82,7 +73,8 @@ public class TestMyMessageList : MonoBehaviour, IRecyclableScrollRectDataSource
     {
         //Casting to the implemented Cell
         var item = cell as ElementCell;
-        item?.ConfigureCell(_messageList[index], index);
+        item?.ConfigureCell(_messageList.ToArray()[index], index);
     }
+
     #endregion
 }

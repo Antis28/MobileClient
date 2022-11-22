@@ -97,7 +97,6 @@ public class Client : MonoBehaviour
     public void SendSpace()
     {
         mobileClient.StartMessages("Space");
-        ConsoleInTextView.LogInText("Space");
     }
 
     public void SendWol()
