@@ -87,6 +87,7 @@ namespace PaneFileBrowser
         {
             _fileList.Clear();
             AddLinkToRoot(directory);
+            if (directory.Directories == null) return;
 
             foreach (var subDirectory in directory.Directories)
             {
@@ -126,22 +127,22 @@ namespace PaneFileBrowser
             };
         }
 
-        private void AddLinkToRoot(Directory root)
+        private void AddLinkToRoot(Directory directory)
         {
-            if (root is Disk)
+            if (directory is Disk)
             {
-                var disk = root as Disk;
+                var disk = directory as Disk;
                 AddPlate(new FileElementInfo()
                 {
                     FileName = $"{disk.Label} ({disk.Name}:)",
-                    DirectoryCount = root.Directories?.Count ?? 0,
-                    FileCount = root.Files?.Count ?? 0,
+                    DirectoryCount = directory.Directories?.Count ?? 0,
+                    FileCount = directory.Files?.Count ?? 0,
                     NextLevel = () => { DiskView(_fileSystem.Disks); }
                 });
                 return;
             }
 
-            if (root == null)
+            if (directory == null)
             {
                 Debug.LogError("root == null");
                 return;
@@ -149,13 +150,13 @@ namespace PaneFileBrowser
 
             AddPlate(new FileElementInfo()
             {
-                FileName = root.Name,
-                DirectoryCount = root.Root.Directories?.Count ?? 0,
-                FileCount = root.Root.Files?.Count ?? 0,
+                FileName = directory.Name,
+                DirectoryCount = directory.Directories?.Count ?? 0,
+                FileCount = directory.Files?.Count ?? 0,
                 NextLevel = () =>
                 {
-                    DirectoriesView(root.Root);
-                    FilesView(root.Root.Files);
+                    DirectoriesView(directory.Root);
+                    FilesView(directory.Root?.Files);
                 }
             });
         }
