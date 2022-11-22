@@ -11,84 +11,80 @@ using Task = System.Threading.Tasks.Task;
 
 public class Client : MonoBehaviour
 {
-    [SerializeField]
-    private TextMeshProUGUI txt;
     
     [SerializeField]
-    private TMP_InputField _inputField;
+    private TMP_InputField ipAddressForServer;
 
-    private MobileClient mobileClient;
+    private MobileClient _mobileClient;
     //private MobileServer mobileServer;
 
     // Start is called before the first frame update
     void Start()
     {
-        TestMyMessageList myMessageList = GameObject.FindObjectOfType<TestMyMessageList>();
+        LogMessageList myMessageList = GameObject.FindObjectOfType<LogMessageList>();
         ConsoleInTextView.Init(myMessageList);
-        _inputField.text = "192.168.0.101";
+        ipAddressForServer.text = "192.168.0.101";
     }
 
-    public void StartServer()
+    public void StartClientAndServer()
     {
-        mobileClient = new MobileClient(_inputField.text);
-        txt.text = "Start";
-        
+        _mobileClient = new MobileClient(ipAddressForServer.text);
         MobileServer.Start();
     }
 
     public void SendRight10()
     {
-        mobileClient.StartMessages("Right x 10");
+        _mobileClient.StartMessages("Right x 10");
     }
 
     public void SendRight()
     {
-        mobileClient.StartMessages("Right");
+        _mobileClient.StartMessages("Right");
     }
 
     public void SendLeft10()
     {
-        mobileClient.StartMessages("Left x 10");
+        _mobileClient.StartMessages("Left x 10");
     }
 
     public void SendLeft()
     {
-        mobileClient.StartMessages("Left");
+        _mobileClient.StartMessages("Left");
     }
 
     public void SendVolumeH()
     {
-        mobileClient.StartMessages("Volume +");
+        _mobileClient.StartMessages("Volume +");
     }
 
     public void SendVolumeL()
     {
-        mobileClient.StartMessages("Volume -");
+        _mobileClient.StartMessages("Volume -");
     }
 
     public void SendVolumeMute()
     {
-        mobileClient.StartMessages("Mute");
+        _mobileClient.StartMessages("Mute");
     }
 
     public void SendPageDown()
     {
-        mobileClient.StartMessages("PageDown");
+        _mobileClient.StartMessages("PageDown");
     }
 
     public void SendPageUp()
     {
-        mobileClient.StartMessages("PageUp");
+        _mobileClient.StartMessages("PageUp");
     }
 
     public void SendHibernate()
     {
-        mobileClient.StartMessages("Hibernate");
+        _mobileClient.StartMessages("Hibernate");
     }
 
     public void SendStandBy()
     {
-        mobileClient.StartMessages("StandBy");
+        _mobileClient.StartMessages("StandBy");
     }
 
     /// <summary>
@@ -96,7 +92,7 @@ public class Client : MonoBehaviour
     /// </summary>
     public void SendSpace()
     {
-        mobileClient.StartMessages("Space");
+        _mobileClient.StartMessages("Space");
     }
 
     public void SendWol()
@@ -110,6 +106,6 @@ public class Client : MonoBehaviour
 
     public void SendSaveName()
     {
-        mobileClient.StartMessages("SaveName");
+        _mobileClient.StartMessages("SaveName");
     }
 }

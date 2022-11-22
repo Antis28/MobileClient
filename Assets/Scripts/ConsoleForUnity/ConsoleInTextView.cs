@@ -10,7 +10,7 @@ namespace ConsoleForUnity
     public class ConsoleInTextView
     {
         private static TextMeshProUGUI _console;
-        private static TestMyMessageList _console2;
+        private static LogMessageList _console2;
 
         public static void LogInText(string msg)
         {
@@ -31,7 +31,7 @@ namespace ConsoleForUnity
             _console = txt;
         }
 
-        public static void Init(TestMyMessageList txt)
+        public static void Init(LogMessageList txt)
         {
             _console2 = txt;
         }

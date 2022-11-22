@@ -19,7 +19,7 @@ public enum ElementType
     Disk
 }
 
-public class TestMyMessageList : MonoBehaviour, IRecyclableScrollRectDataSource
+public class LogMessageList : MonoBehaviour, IRecyclableScrollRectDataSource
 {
     private int _messageCounter = 1;
 
