@@ -9,7 +9,7 @@ namespace PanelLog
         private int _messageCounter = 1;
 
         [SerializeField]
-        private RecyclableScrollRect recyclableScrollRect;
+        private RecyclableScrollRect logScrollList;
 
         //Data List
         private Stack<LogElementInfo> _messageList;
@@ -18,7 +18,7 @@ namespace PanelLog
         private void Awake()
         {
             InitData();
-            recyclableScrollRect.DataSource = this;
+            logScrollList.DataSource = this;
         }
 
         public void AddMessage(string message)
@@ -29,7 +29,7 @@ namespace PanelLog
                 Message = message
             };
             _messageList.Push(obj);
-            recyclableScrollRect.ReloadData();
+            logScrollList.ReloadData();
         }
 
         private void InitData()
@@ -40,7 +40,7 @@ namespace PanelLog
 
         private void OnValidate()
         {
-            if (recyclableScrollRect == null) Debug.LogAssertion("recyclableScrollRect == null");
+            if (logScrollList == null) Debug.LogAssertion("recyclableScrollRect == null");
         }
 
         #region DATA-SOURCE
