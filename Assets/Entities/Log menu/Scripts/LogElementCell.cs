@@ -1,15 +1,19 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using PolyAndCode.UI;
+using TMPro;
 
 namespace PanelLog
 {
     public class LogElementCell : MonoBehaviour, ICell
     {
         //UI
-        public Text idLabel;
-        public Text nameLabel;
-        public Image imageLabel;
+        [SerializeField]
+        private TMP_Text idLabel;
+        [SerializeField]
+        private TMP_Text nameLabel;
+        [SerializeField]
+        private Image imageLabel;
         
         //Model
         private LogElementInfo _logElementInfo;
