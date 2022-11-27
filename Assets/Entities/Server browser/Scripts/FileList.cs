@@ -1,8 +1,11 @@
 using System.Collections.Generic;
+using System.IO;
+using ConsoleForUnity;
 using PolyAndCode.UI;
 using UnityEngine;
 using MessageObjects;
-
+using Directory = MessageObjects.Directory;
+using File = MessageObjects.File;
 
 
 namespace PaneFileBrowser
@@ -68,6 +71,12 @@ namespace PaneFileBrowser
         public void BuildView(FileSystem fileSystem)
         {
             _fileSystem = fileSystem;
+            if (_fileSystem == null)
+            {
+                ConsoleInTextView.LogInText("!!! _fileSystem == null");
+                return;
+            }
+
             DiskView(_fileSystem.Disks);
         }
 
@@ -174,7 +183,7 @@ namespace PaneFileBrowser
             {
                 AddPlate(new FileElementInfo()
                 {
-                    FileName = file.Name,
+                    FileName = Path.GetFileName(file.Name),
                     icon = fileIcon
                 });
             }

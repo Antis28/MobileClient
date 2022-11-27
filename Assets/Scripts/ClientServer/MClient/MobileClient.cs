@@ -50,6 +50,7 @@ namespace MClient
                 Byte[] data = System.Text.Encoding.UTF8.GetBytes(message);
                 // Получаем поток для чтения и записи данных.
                 NetworkStream stream = client.GetStream();
+                
                 // Отправляем сообщение нашему серверу. 
                 await stream.WriteAsync(data, 0, data.Length);
                 ConsoleInTextView.ShowSend(message);
@@ -57,12 +58,12 @@ namespace MClient
                 // Получаем ответ от сервера.
                 // Буфер для хранения принятого массива bytes.
                 data = new Byte[256];
-                // Строка для хранения полученных ASCII данных.
+                // Строка для хранения полученных UTF8 данных.
                 // Читаем первый пакет ответа сервера. 
                 // Можно читать всё сообщение.
                 // Для этого надо организовать чтение в цикле как на сервере.
                 Int32 bytes = await stream.ReadAsync(data, 0, data.Length);
-                var responseData = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
+                var responseData = System.Text.Encoding.UTF8.GetString(data, 0, bytes);
                 ConsoleInTextView.ShowMessage(responseData);
                 
                 // Закрываем всё.

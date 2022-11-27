@@ -6,8 +6,8 @@ using PanelLog;
 using TMPro;
 using UnityEngine;
 
-namespace ConsoleForUnity
-{
+namespace ConsoleForUnity;
+
     public class ConsoleInTextView
     {
         private static TextMeshProUGUI _console;
@@ -92,4 +92,4 @@ namespace ConsoleForUnity
             LogInText($"Получено: {message}");
         }
     }
-}
+

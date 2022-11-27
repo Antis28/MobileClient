@@ -28,9 +28,14 @@ public class Client : MonoBehaviour
     public void StartClientAndServer()
     {
         _mobileClient = new MobileClient(ipAddressForServer.text);
-        MobileServer.Start(uiFileList);
+        MobileServer.Start(uiFileList, SendGetFileSystem);
     }
-
+    
+    public void SendGetFileSystem()
+    {
+        _mobileClient.StartMessages("GetFileSystem");
+    }
+    
     public void SendRight10()
     {
         _mobileClient.StartMessages("Right x 10");
