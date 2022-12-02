@@ -25,10 +25,10 @@ public class Client : MonoBehaviour
         ipAddressForServer.text = "192.168.0.101";
     }
 
-    public void StartClientAndServer()
+    public async void StartClientAndServer()
     {
         _mobileClient = new MobileClient(ipAddressForServer.text);
-         MobileServer.StartAsync(uiFileList, SendGetFileSystem);
+         await MobileServer.StartAsync(uiFileList, SendGetFileSystem);
     }
     
     public void SendGetFileSystem()

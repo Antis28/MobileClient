@@ -14,10 +14,10 @@ public static class MobileServer
         private static readonly string _localhost = "127.0.0.1";
         private static readonly int _port = 9090;
 
-        public static async void StartAsync(FileList uiFileList, Action action)
+        public static async Task StartAsync(FileList uiFileList, Action action)
         {
             var hostIp = _localhost;
-            var host = Dns.GetHostEntry(Dns.GetHostName());
+            var host = await Dns.GetHostEntryAsync(Dns.GetHostName());
 
             foreach (var ip in host.AddressList)
             {

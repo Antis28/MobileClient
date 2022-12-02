@@ -16,8 +16,8 @@ namespace ConsoleForUnity
         public static void LogInText(string msg)
         {
             //_console.text = $"{msg}\n{_console.text}" ;
-            _console2.AddMessage(msg);
-            Debug.Log(msg);
+            //_console2.AddMessage(msg);
+           // Debug.Log(msg);
         }
 
         public static void LogInText(string src, string msg)
