@@ -11,7 +11,7 @@ using File = MessageObjects.File;
 
 namespace PaneFileBrowser
 {
-    public class FileList : MonoBehaviour, IRecyclableScrollRectDataSource
+     public class FileList : MonoBehaviour, IRecyclableScrollRectDataSource
     {
         [SerializeField]
         private Sprite driveIcon;
@@ -72,12 +72,6 @@ namespace PaneFileBrowser
         public void BuildView(FileSystem fileSystem)
         {
             _fileSystem = fileSystem;
-            if (_fileSystem == null)
-            {
-                ConsoleInTextView.LogInText("!!! _fileSystem == null");
-                return;
-            }
-
             DiskView(_fileSystem.Disks);
         }
 
@@ -88,10 +82,11 @@ namespace PaneFileBrowser
 
             foreach (var disk in disks)
             {
-                var element = CreateDiskElementInfo(disk);
+                var element = CreateFileElementInfo(disk);
                 AddPlate(element);
             }
         }
+
 
         private void DirectoriesView(Directory directory)
         {
@@ -102,65 +97,16 @@ namespace PaneFileBrowser
             foreach (var subDirectory in directory.Directories)
             {
                 subDirectory.Root = directory;
-                var element = CreateDirectoryElementInfo(subDirectory, () =>
-                {
-                    DirectoriesView(directory);
-                    FilesView(directory.Files);
-                });
-                AddPlate(element);
-            }
-           
-        }
-
-        private void AddLinkToRoot(Directory directory)
-        {
-            if (directory is Disk disk)
-            {
-                CreateDiskElementInfo(disk);
-                return;
-            }
-            
-            if (directory == null)
-            {
-                Debug.LogError("root == null");
-                return;
-            }
-
-            var element = CreateDirectoryElementInfo(directory, () =>
-                {
-                    DirectoriesView(directory.Root);
-                    FilesView(directory.Root?.Files);
-                }
-            );
-            AddPlate(element);
-        }
-
-        private void FilesView(List<File> files)
-        {
-            if (files == null) return;
-
-            foreach (var file in files)
-            {
-                var element = new FileElementInfo()
-                {
-                    FileName = file.Name,
-                    icon = fileIcon
-                };
+                var element = CreateFileElementInfo(subDirectory);
                 AddPlate(element);
             }
         }
 
-        private void AddPlate(FileElementInfo fileElementInfo)
-        {
-            _fileList.Add(fileElementInfo);
-            recyclableScrollRect.ReloadData();
-        }
-        
-        private FileElementInfo CreateDiskElementInfo(Disk disk)
+        private FileElementInfo CreateFileElementInfo(Disk disk)
         {
             return new FileElementInfo()
             {
-                FileName = $"{disk.Label} ({disk.Name})",
+                FileName = $"{disk.Label} ({disk.Name}:)",
                 DirectoryCount = disk.Directories?.Count ?? 0,
                 FileCount = disk.Files?.Count ?? 0,
                 icon = driveIcon,
@@ -172,7 +118,7 @@ namespace PaneFileBrowser
             };
         }
 
-        private FileElementInfo CreateDirectoryElementInfo(Directory directory, Action action)
+        private FileElementInfo CreateFileElementInfo(Directory directory)
         {
             return new FileElementInfo
             {
@@ -180,8 +126,68 @@ namespace PaneFileBrowser
                 DirectoryCount = directory.Directories?.Count ?? 0,
                 FileCount = directory.Files?.Count ?? 0,
                 icon = directoryIcon,
-                NextLevel = action
+                NextLevel = () =>
+                {
+                    DirectoriesView(directory);
+                    FilesView(directory.Files);
+                }
             };
+        }
+
+        private void AddLinkToRoot(Directory directory)
+        {
+            if (directory is Disk)
+            {
+                var disk = directory as Disk;
+                AddPlate(new FileElementInfo()
+                {
+                    FileName = $"{disk.Label} ({disk.Name}:)",
+                    DirectoryCount = directory.Directories?.Count ?? 0,
+                    FileCount = directory.Files?.Count ?? 0,
+                    icon = driveIcon,
+                    NextLevel = () => { DiskView(_fileSystem.Disks); }
+                });
+                return;
+            }
+
+            if (directory == null)
+            {
+                Debug.LogError("root == null");
+                return;
+            }
+
+            AddPlate(new FileElementInfo()
+            {
+                FileName = directory.Name,
+                DirectoryCount = directory.Directories?.Count ?? 0,
+                FileCount = directory.Files?.Count ?? 0,
+                icon = directoryIcon,
+                NextLevel = () =>
+                {
+                    DirectoriesView(directory.Root);
+                    FilesView(directory.Root?.Files);
+                }
+            });
+        }
+
+        private void FilesView(List<File> files)
+        {
+            if (files == null) return;
+
+            foreach (var file in files)
+            {
+                AddPlate(new FileElementInfo()
+                {
+                    FileName = file.Name,
+                    icon = fileIcon
+                });
+            }
+        }
+
+        private void AddPlate(FileElementInfo fileElementInfo)
+        {
+            _fileList.Add(fileElementInfo);
+            recyclableScrollRect.ReloadData();
         }
     }
 }
