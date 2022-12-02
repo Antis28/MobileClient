@@ -93,7 +93,6 @@ namespace PaneFileBrowser
             }
         }
 
-
         private void DirectoriesView(Directory directory)
         {
             _fileList.Clear();
@@ -110,34 +109,7 @@ namespace PaneFileBrowser
                 });
                 AddPlate(element);
             }
-        }
-
-        private FileElementInfo CreateDiskElementInfo(Disk disk)
-        {
-            return new FileElementInfo()
-            {
-                FileName = $"{disk.Label} ({disk.Name})",
-                DirectoryCount = disk.Directories?.Count ?? 0,
-                FileCount = disk.Files?.Count ?? 0,
-                icon = driveIcon,
-                NextLevel = () =>
-                {
-                    DirectoriesView(disk);
-                    FilesView(disk.Files);
-                }
-            };
-        }
-
-        private FileElementInfo CreateDirectoryElementInfo(Directory directory, Action action)
-        {
-            return new FileElementInfo
-            {
-                FileName = directory.Name,
-                DirectoryCount = directory.Directories?.Count ?? 0,
-                FileCount = directory.Files?.Count ?? 0,
-                icon = directoryIcon,
-                NextLevel = action
-            };
+           
         }
 
         private void AddLinkToRoot(Directory directory)
@@ -182,6 +154,34 @@ namespace PaneFileBrowser
         {
             _fileList.Add(fileElementInfo);
             recyclableScrollRect.ReloadData();
+        }
+        
+        private FileElementInfo CreateDiskElementInfo(Disk disk)
+        {
+            return new FileElementInfo()
+            {
+                FileName = $"{disk.Label} ({disk.Name})",
+                DirectoryCount = disk.Directories?.Count ?? 0,
+                FileCount = disk.Files?.Count ?? 0,
+                icon = driveIcon,
+                NextLevel = () =>
+                {
+                    DirectoriesView(disk);
+                    FilesView(disk.Files);
+                }
+            };
+        }
+
+        private FileElementInfo CreateDirectoryElementInfo(Directory directory, Action action)
+        {
+            return new FileElementInfo
+            {
+                FileName = directory.Name,
+                DirectoryCount = directory.Directories?.Count ?? 0,
+                FileCount = directory.Files?.Count ?? 0,
+                icon = directoryIcon,
+                NextLevel = action
+            };
         }
     }
 }
