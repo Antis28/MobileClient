@@ -75,7 +75,7 @@ namespace PaneFileBrowser
             else
             {
                 Debug.Log("Its a file ");
-                // Client.MobileClient.SendMessage("ExecutableFile", _fileElementInfo.FileName);
+                Client.MobileClient.SendMessage("ExecutableFile", _fileElementInfo.FileName);
             }
         }
     }
