@@ -34,7 +34,7 @@ namespace MClient
             } catch (Exception e) { ConsoleInUnityView.ShowError(e); }
         }
 
-        static async void  Connect(String server, String message)
+        static async void  Connect(string server, string message)
         {
             try
             {
@@ -58,7 +58,7 @@ namespace MClient
                 // Получаем ответ от сервера.
                 // Буфер для хранения принятого массива bytes.
                 data = new Byte[256];
-                // Строка для хранения полученных UTF8 данных.
+                // Строка для хранения полученных ASCII данных.
                 // Читаем первый пакет ответа сервера. 
                 // Можно читать всё сообщение.
                 // Для этого надо организовать чтение в цикле как на сервере.

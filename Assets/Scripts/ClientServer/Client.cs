@@ -28,7 +28,7 @@ public class Client : MonoBehaviour
     public void StartClientAndServer()
     {
         _mobileClient = new MobileClient(ipAddressForServer.text);
-        MobileServer.Start(uiFileList, SendGetFileSystem);
+         MobileServer.StartAsync(uiFileList, SendGetFileSystem);
     }
     
     public void SendGetFileSystem()
