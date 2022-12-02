@@ -85,6 +85,7 @@ namespace PaneFileBrowser
                 var element = CreateFileElementInfo(disk);
                 AddPlate(element);
             }
+            recyclableScrollRect.ReloadData();
         }
 
 
@@ -100,6 +101,7 @@ namespace PaneFileBrowser
                 var element = CreateFileElementInfo(subDirectory);
                 AddPlate(element);
             }
+            recyclableScrollRect.ReloadData();
         }
 
         private FileElementInfo CreateFileElementInfo(Disk disk)
@@ -187,7 +189,6 @@ namespace PaneFileBrowser
         private void AddPlate(FileElementInfo fileElementInfo)
         {
             _fileList.Add(fileElementInfo);
-            recyclableScrollRect.ReloadData();
         }
     }
 }
