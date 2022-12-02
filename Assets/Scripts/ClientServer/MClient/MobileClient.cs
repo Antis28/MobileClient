@@ -5,6 +5,8 @@ using System;
 using System.Net;
 using System.Net.Sockets;
 using ConsoleForUnity;
+using MessageObjects;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace MClient
@@ -25,7 +27,7 @@ namespace MClient
             ConsoleInTextView.LogInText(GetType().Name, hostIp);
         }
 
-        public void StartMessages(string message)
+        public void SendMessage(string message)
         {
             try
             {
@@ -34,7 +36,16 @@ namespace MClient
             } catch (Exception e) { ConsoleInUnityView.ShowError(e); }
         }
 
-        static async void  Connect(string server, string message)
+        public void SendMessage(string message, string argument)
+        {
+            try
+            {
+                ConsoleInTextView.LogInText(GetType().Name, hostIp);
+                Connect(hostIp, message, argument);
+            } catch (Exception e) { ConsoleInUnityView.ShowError(e); }
+        }
+
+        static async void Connect(string server, string message, string argument = null)
         {
             try
             {
@@ -45,12 +56,19 @@ namespace MClient
                 Int32 port = 9595;
                 TcpClient client = new TcpClient();
                 await client.ConnectAsync(server, port);
-                
+
+
+                var jsonText = JsonConvert.SerializeObject(new CommandMessage
+                {
+                    Command = message,
+                    Argument = argument,
+                });
+
                 // Переводим наше сообщение в UTF8, а затем в массив Byte.
-                Byte[] data = System.Text.Encoding.UTF8.GetBytes(message);
+                Byte[] data = System.Text.Encoding.UTF8.GetBytes(jsonText);
                 // Получаем поток для чтения и записи данных.
                 NetworkStream stream = client.GetStream();
-                
+
                 // Отправляем сообщение нашему серверу. 
                 await stream.WriteAsync(data, 0, data.Length);
                 ConsoleInTextView.ShowSend(message);
@@ -65,7 +83,7 @@ namespace MClient
                 Int32 bytes = await stream.ReadAsync(data, 0, data.Length);
                 var responseData = System.Text.Encoding.UTF8.GetString(data, 0, bytes);
                 ConsoleInTextView.ShowMessage(responseData);
-                
+
                 // Закрываем всё.
                 stream.Close();
                 client.Close();

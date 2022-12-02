@@ -8,13 +8,14 @@ using PanelLog;
 
 public class Client : MonoBehaviour
 {
+   
     
     [SerializeField]
     private TMP_InputField ipAddressForServer;
     [SerializeField]
     private FileList uiFileList; // для вывода информации JSON файла структуры файловой системы компьютера
 
-    private MobileClient _mobileClient;
+    public static MobileClient MobileClient;
     //private MobileServer mobileServer;
 
     // Start is called before the first frame update
@@ -27,68 +28,68 @@ public class Client : MonoBehaviour
 
     public async void StartClientAndServer()
     {
-        _mobileClient = new MobileClient(ipAddressForServer.text);
+        MobileClient = new MobileClient(ipAddressForServer.text);
          await MobileServer.StartAsync(uiFileList, SendGetFileSystem);
     }
     
     public void SendGetFileSystem()
     {
-        _mobileClient.StartMessages("GetFileSystem");
+        MobileClient.SendMessage("GetFileSystem");
     }
     
     public void SendRight10()
     {
-        _mobileClient.StartMessages("Right x 10");
+        MobileClient.SendMessage("Right x 10");
     }
 
     public void SendRight()
     {
-        _mobileClient.StartMessages("Right");
+        MobileClient.SendMessage("Right");
     }
 
     public void SendLeft10()
     {
-        _mobileClient.StartMessages("Left x 10");
+        MobileClient.SendMessage("Left x 10");
     }
 
     public void SendLeft()
     {
-        _mobileClient.StartMessages("Left");
+        MobileClient.SendMessage("Left");
     }
 
     public void SendVolumeH()
     {
-        _mobileClient.StartMessages("Volume +");
+        MobileClient.SendMessage("Volume +");
     }
 
     public void SendVolumeL()
     {
-        _mobileClient.StartMessages("Volume -");
+        MobileClient.SendMessage("Volume -");
     }
 
     public void SendVolumeMute()
     {
-        _mobileClient.StartMessages("Mute");
+        MobileClient.SendMessage("Mute");
     }
 
     public void SendPageDown()
     {
-        _mobileClient.StartMessages("PageDown");
+        MobileClient.SendMessage("PageDown");
     }
 
     public void SendPageUp()
     {
-        _mobileClient.StartMessages("PageUp");
+        MobileClient.SendMessage("PageUp");
     }
 
     public void SendHibernate()
     {
-        _mobileClient.StartMessages("Hibernate");
+        MobileClient.SendMessage("Hibernate");
     }
 
     public void SendStandBy()
     {
-        _mobileClient.StartMessages("StandBy");
+        MobileClient.SendMessage("StandBy");
     }
 
     /// <summary>
@@ -96,7 +97,7 @@ public class Client : MonoBehaviour
     /// </summary>
     public void SendSpace()
     {
-        _mobileClient.StartMessages("Space");
+        MobileClient.SendMessage("Space");
     }
 
     public void SendWol()
@@ -110,6 +111,6 @@ public class Client : MonoBehaviour
 
     public void SendSaveName()
     {
-        _mobileClient.StartMessages("SaveName");
+        MobileClient.SendMessage("SaveName");
     }
 }
