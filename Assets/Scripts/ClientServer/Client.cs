@@ -8,19 +8,23 @@ using PanelLog;
 
 public class Client : MonoBehaviour
 {
-   
+    private string _playerName; //"Pot Player" or "YouTube Player" 
     
     [SerializeField]
     private TMP_InputField ipAddressForServer;
     [SerializeField]
     private FileList uiFileList; // для вывода информации JSON файла структуры файловой системы компьютера
 
+    [SerializeField]
+    private TMP_Text playerNameText;
+    
     public static MobileClient MobileClient;
     //private MobileServer mobileServer;
 
     // Start is called before the first frame update
     void Start()
     {
+        SwitchPlayerName("Pot Player");
         LogMessageList myMessageList = FindObjectOfType<LogMessageList>();
         ConsoleInTextView.Init(myMessageList);
         ipAddressForServer.text = "192.168.0.101";
@@ -39,57 +43,57 @@ public class Client : MonoBehaviour
     
     public void SendRight10()
     {
-        MobileClient.SendMessage("Right x 10");
+        MobileClient.SendMessage("Right x 10",_playerName);
     }
 
     public void SendRight()
     {
-        MobileClient.SendMessage("Right");
+        MobileClient.SendMessage("Right",_playerName);
     }
 
     public void SendLeft10()
     {
-        MobileClient.SendMessage("Left x 10");
+        MobileClient.SendMessage("Left x 10",_playerName);
     }
 
     public void SendLeft()
     {
-        MobileClient.SendMessage("Left");
+        MobileClient.SendMessage("Left",_playerName);
     }
 
     public void SendVolumeH()
     {
-        MobileClient.SendMessage("Volume +");
+        MobileClient.SendMessage("Volume +",_playerName);
     }
 
     public void SendVolumeL()
     {
-        MobileClient.SendMessage("Volume -");
+        MobileClient.SendMessage("Volume -",_playerName);
     }
 
     public void SendVolumeMute()
     {
-        MobileClient.SendMessage("Mute");
+        MobileClient.SendMessage("Mute",_playerName);
     }
 
     public void SendPageDown()
     {
-        MobileClient.SendMessage("PageDown");
+        MobileClient.SendMessage("PageDown",_playerName);
     }
 
     public void SendPageUp()
     {
-        MobileClient.SendMessage("PageUp");
+        MobileClient.SendMessage("PageUp",_playerName);
     }
 
     public void SendHibernate()
     {
-        MobileClient.SendMessage("Hibernate");
+        MobileClient.SendMessage("Hibernate",_playerName);
     }
 
     public void SendStandBy()
     {
-        MobileClient.SendMessage("StandBy");
+        MobileClient.SendMessage("StandBy",_playerName);
     }
 
     /// <summary>
@@ -97,7 +101,7 @@ public class Client : MonoBehaviour
     /// </summary>
     public void SendSpace()
     {
-        MobileClient.SendMessage("Space");
+        MobileClient.SendMessage("Space",_playerName);
     }
 
     public void SendWol()
@@ -112,5 +116,11 @@ public class Client : MonoBehaviour
     public void SendSaveName()
     {
         MobileClient.SendMessage("SaveName");
+    }
+    
+    public void SwitchPlayerName(string name)
+    {
+        playerNameText.text = name;
+        _playerName = name;
     }
 }
