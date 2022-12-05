@@ -7,6 +7,9 @@ riderModule.iml
 /MyGame/Generated
 *.apk
 
+*.symbols.zip
+/UserSettings/
+
 /Assets/Plugins/TextMesh Pro/
 /UserSettings/Layouts
 
