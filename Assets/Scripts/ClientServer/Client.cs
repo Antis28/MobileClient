@@ -1,29 +1,33 @@
 using System;
+using ClientServer;
 using UnityEngine;
 using MClient;
 using TMPro;
 using ConsoleForUnity;
 using PaneFileBrowser;
 using PanelLog;
+using ThreadViewHelper;
 
 public class Client : MonoBehaviour
 {
     private string _playerName; //"Pot Player" or "YouTube Player" 
-    
+
     [SerializeField]
     private TMP_InputField ipAddressForServer;
+
     [SerializeField]
     private FileList uiFileList; // для вывода информации JSON файла структуры файловой системы компьютера
 
     [SerializeField]
     private TMP_Text playerNameText;
-    
+
     public static MobileClient MobileClient;
     //private MobileServer mobileServer;
 
     // Start is called before the first frame update
     void Start()
     {
+        ThreadViewer.SetPrinter(new UnityPrinter());
         SwitchPlayerName("Pot Player");
         LogMessageList myMessageList = FindObjectOfType<LogMessageList>();
         ConsoleInTextView.Init(myMessageList);
@@ -33,67 +37,83 @@ public class Client : MonoBehaviour
     public async void StartClientAndServer()
     {
         MobileClient = new MobileClient(ipAddressForServer.text);
-         await MobileServer.StartAsync(uiFileList, SendGetFileSystem);
+        
+        // Отсылаем запрос на получение фавйловой системы в Json формате
+        SendGetFileSystem();
+        ConsoleInTextView.ShowSend("Выслан запрос на JSON.");
+
+        var data =  await MobileServer.AwaitMessageAsync();
+        
+        // Выводим Json в UI
+        ConsoleInTextView.ShowSend("Выводим Json в UI.");
+        var sb = new ServerBrowser(uiFileList);
+        sb.ShowInBrowser(data);
+        ConsoleInTextView.LogInText("Json в UI завершен.");
+        // Выводим Json в журнал
+        //ConsoleInTextView.ShowSend("Выводим Json в журнал.");
+        //  ConsoleInTextView.LogInText(data);
+
+        ConsoleInTextView.LogInText("StartClientAndServer Ended");
     }
-    
+
     public void SendGetFileSystem()
     {
         MobileClient.SendMessage("GetFileSystem");
     }
-    
+
     public void SendRight10()
     {
-        MobileClient.SendMessage("Right x 10",_playerName);
+        MobileClient.SendMessage("Right x 10", _playerName);
     }
 
     public void SendRight()
     {
-        MobileClient.SendMessage("Right",_playerName);
+        MobileClient.SendMessage("Right", _playerName);
     }
 
     public void SendLeft10()
     {
-        MobileClient.SendMessage("Left x 10",_playerName);
+        MobileClient.SendMessage("Left x 10", _playerName);
     }
 
     public void SendLeft()
     {
-        MobileClient.SendMessage("Left",_playerName);
+        MobileClient.SendMessage("Left", _playerName);
     }
 
     public void SendVolumeH()
     {
-        MobileClient.SendMessage("Volume +",_playerName);
+        MobileClient.SendMessage("Volume +", _playerName);
     }
 
     public void SendVolumeL()
     {
-        MobileClient.SendMessage("Volume -",_playerName);
+        MobileClient.SendMessage("Volume -", _playerName);
     }
 
     public void SendVolumeMute()
     {
-        MobileClient.SendMessage("Mute",_playerName);
+        MobileClient.SendMessage("Mute", _playerName);
     }
 
     public void SendPageDown()
     {
-        MobileClient.SendMessage("PageDown",_playerName);
+        MobileClient.SendMessage("PageDown", _playerName);
     }
 
     public void SendPageUp()
     {
-        MobileClient.SendMessage("PageUp",_playerName);
+        MobileClient.SendMessage("PageUp", _playerName);
     }
 
     public void SendHibernate()
     {
-        MobileClient.SendMessage("Hibernate",_playerName);
+        MobileClient.SendMessage("Hibernate", _playerName);
     }
 
     public void SendStandBy()
     {
-        MobileClient.SendMessage("StandBy",_playerName);
+        MobileClient.SendMessage("StandBy", _playerName);
     }
 
     /// <summary>
@@ -101,7 +121,7 @@ public class Client : MonoBehaviour
     /// </summary>
     public void SendSpace()
     {
-        MobileClient.SendMessage("Space",_playerName);
+        MobileClient.SendMessage("Space", _playerName);
     }
 
     public void SendWol()
@@ -117,7 +137,7 @@ public class Client : MonoBehaviour
     {
         MobileClient.SendMessage("SaveName");
     }
-    
+
     public void SwitchPlayerName(string name)
     {
         playerNameText.text = name;

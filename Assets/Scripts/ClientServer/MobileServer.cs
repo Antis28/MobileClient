@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -11,10 +12,11 @@ using ThreadViewHelper;
 
 public static class MobileServer
     {
+        
         private static readonly string _localhost = "127.0.0.1";
         private static readonly int _port = 9090;
 
-        public static async Task StartAsync(FileList uiFileList, Action action)
+        public static async Task<string> AwaitMessageAsync()
         {
             var hostIp = _localhost;
             var host = await Dns.GetHostEntryAsync(Dns.GetHostName());
@@ -26,37 +28,20 @@ public static class MobileServer
                     hostIp = ip.ToString();
                 }
             }
-            ThreadViewer.SetPrinter(new UnityPrinter());
 
             ConsoleInTextView.LogInText("MobileServer -> " + hostIp);
-
+            
             var server = new TcpListener(IPAddress.Parse(hostIp), _port);
             server.Start();
-            var sb = new ServerBrowser(uiFileList);
-
-            // Отсылаем запрос на получение фвйловой системы в Json формате
-            ConsoleInTextView.ShowSend("Выслан запрос на JSON.");
-            action?.Invoke();
 
             // ожидаем клиента
             ConsoleInTextView.ShowSend("Ожидаем клиента Async.");
-            ThreadViewer.ThreadStarted("AcceptTcpClientAsync");
             var listener = await server.AcceptTcpClientAsync();
-            ThreadViewer.ThreadEnded("AcceptTcpClientAsync");
-
+         
             // Получаем сообщение от клиента
             ConsoleInTextView.ShowSend("Получаем сообщение от клиента.");
-            ThreadViewer.ThreadStarted("ReadAndSendSuccessAnswer");
-            string data = await ReadAndSendSuccessAnswer(listener);
-            ThreadViewer.ThreadEnded("ReadAndSendSuccessAnswer");
-
-            // Выводим Json в UI
-            ConsoleInTextView.ShowSend("Выводим Json в UI.");
-            sb.ShowInBrowser(data);
-
-            // Выводим Json в журнал
-            ConsoleInTextView.ShowSend("Выводим Json в журнал.");
-          //  ConsoleInTextView.LogInText(data);
+          
+            return await ReadAndSendSuccessAnswer(listener);
         }
 
         private static async Task<string> ReadAndSendSuccessAnswer(TcpClient tcpClient)
