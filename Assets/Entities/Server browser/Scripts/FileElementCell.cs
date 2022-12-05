@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using ConsoleForUnity;
 using MClient;
 using UnityEngine;
 using UnityEngine.UI;
@@ -56,34 +57,49 @@ namespace PaneFileBrowser
         private void ButtonListener()
         {
             _fileElementInfo.NextLevel?.Invoke();
-            Debug.Log("Name : " + _fileElementInfo.FileName);
-            
-            
+            ConsoleInTextView.LogInText("Name : " + _fileElementInfo.FileName);
+
+
             if (_fileElementInfo.FileName.EndsWith(@":\)"))
             {
-                Debug.Log("Its a disk");
+                ConsoleInTextView.LogInText("Its a disk");
                 return;
             }
-
-            try
-            {
-                // get the file attributes for file or directory
-                FileAttributes attr = File.GetAttributes(_fileElementInfo.FileName);
             
-                //detect whether its a directory or file
-                if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
-                    // Its a directory
-                    Debug.Log("Its a directory");
-                else
-                {
-                    Debug.Log("Its a file ");
-                    Client.MobileClient.SendMessage("ExecutableFile", _fileElementInfo.FileName);
-                }
-            } catch (Exception e)
+            
+            for (int i = _fileElementInfo.FileName.Length-1; i >= 0; i--)
             {
-                Debug.Log("Its a disk");
+                var character = _fileElementInfo.FileName[i];
+            
+                ConsoleInTextView.LogInText("character -> " + character);
+                if (character == '.')
+                {
+                    ConsoleInTextView.LogInText("Exception -> ExecutableFile" + _fileElementInfo.FileName);
+                    Client.MobileClient.SendMessage("ExecutableFile", _fileElementInfo.FileName);
+                    return;
+                }
             }
-           
+
+            // try
+            // {
+            //     // get the file attributes for file or directory
+            //     FileAttributes attr = File.GetAttributes(_fileElementInfo.FileName);
+            //
+            //     //detect whether its a directory or file
+            //     if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
+            //         // Its a directory
+            //         ConsoleInTextView.LogInText("Its a directory");
+            //     else
+            //     {
+            //         ConsoleInTextView.LogInText("Its a file -> ExecutableFile");
+            //         Client.MobileClient.SendMessage("ExecutableFile", _fileElementInfo.FileName);
+            //     }
+            // } catch (Exception e)
+            // {
+            //     ConsoleInTextView.LogInText("Exception -> " + _fileElementInfo.FileName + _fileElementInfo.FileName.Length);
+            //
+            //     
+            // }
         }
     }
 }

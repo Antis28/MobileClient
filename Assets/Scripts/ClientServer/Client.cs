@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using ClientServer;
 using UnityEngine;
 using MClient;
@@ -37,25 +38,38 @@ public class Client : MonoBehaviour
     public async void StartClientAndServer()
     {
         MobileClient = new MobileClient(ipAddressForServer.text);
-        
+
         // Отсылаем запрос на получение фавйловой системы в Json формате
-        SendGetFileSystem("root");
+        SendGetFileSystem(null);
         ConsoleInTextView.ShowSend("Выслан запрос на JSON.");
 
-        var data =  await MobileServer.AwaitMessageAsync();
-        
+        var data = await MobileServer.AwaitMessageAsync();
+
         // Выводим Json в UI
         ConsoleInTextView.ShowSend("Выводим Json в UI.");
         var sb = new ServerBrowser(uiFileList);
         sb.ShowInBrowser(data);
         ConsoleInTextView.LogInText("Json в UI завершен.");
- 
+
+        await Task.Delay(5000);
+        // Поторно запрашиваем файловую систему, но уже глубже
+        SendGetFileSystem("4");
+        ConsoleInTextView.ShowSend("Выслан повторный запрос на JSON.");
+        data = await MobileServer.AwaitMessageAsync();
+        
+        sb.UpdateFs(data);
+
         ConsoleInTextView.LogInText("StartClientAndServer Ended");
     }
 
-    public void SendGetFileSystem(string path)
+    public void SendGetFileSystem(string deep)
     {
-        MobileClient.SendMessage("GetFileSystem", path);
+        if (string.IsNullOrEmpty(deep))
+        {
+            deep = "1";
+        }
+        
+        MobileClient.SendMessage("GetFileSystem", deep);
     }
 
     public void SendRight10()

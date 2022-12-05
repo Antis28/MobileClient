@@ -40,8 +40,9 @@ public static class MobileServer
          
             // Получаем сообщение от клиента
             ConsoleInTextView.ShowSend("Получаем сообщение от клиента.");
-          
-            return await ReadAndSendSuccessAnswer(listener);
+            var data =  await ReadAndSendSuccessAnswer(listener);
+            server.Stop();
+            return data;
         }
 
         private static async Task<string> ReadAndSendSuccessAnswer(TcpClient tcpClient)
@@ -59,6 +60,7 @@ public static class MobileServer
                     ThreadViewer.ThreadStarted("ReadLineAsync");
                     string request = await reader.ReadLineAsync();
                     ThreadViewer.ThreadEnded("ReadLineAsync");
+                   
                     if (request != null)
                     {
                         result = request;
@@ -75,12 +77,11 @@ public static class MobileServer
                         break; // клиент закрыл соединение
                     }
                 }
-
-                tcpClient.Close();
-            } catch (Exception e) { ConsoleInTextView.ShowError(e); } finally
+            } catch (Exception e) { ConsoleInTextView.ShowError(e); } 
+            finally
             {
                 // Закрываем соединение.
-                tcpClient.Close();
+                tcpClient?.Close();
             }
 
             return result;

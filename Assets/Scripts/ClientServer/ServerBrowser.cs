@@ -7,6 +7,7 @@ using System.Text;
 using ConsoleForUnity;
 using MessageObjects;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 namespace ClientServer
 {
@@ -29,13 +30,30 @@ namespace ClientServer
 
         public void ShowInBrowser(string data)
         {
+            var fileSystem = DeserializeData(data);
+            if (fileSystem == null) return;
+            
+            _uiFileList.BuildView(fileSystem);
+        }
+
+        private static FileSystem DeserializeData(string data)
+        {
             FileSystem myDeserializedClass = null;
             try { myDeserializedClass = JsonConvert.DeserializeObject<FileSystem>(data); } catch (Exception e)
             {
                 ConsoleInTextView.LogInText(e.Message);
-                return;
+                return myDeserializedClass;
             }
-            _uiFileList.BuildView(myDeserializedClass);
+
+            return myDeserializedClass;
+        }
+
+        public void UpdateFs(string data)
+        {
+            var fileSystem = DeserializeData(data);
+            if (fileSystem == null) return;
+            
+            _uiFileList.UpdateFileSystem(fileSystem);
         }
 
         // private void ReadJson()

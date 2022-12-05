@@ -79,6 +79,12 @@ namespace PaneFileBrowser
             _fileSystem = fileSystem;
             DiskView(_fileSystem.Disks);
         }
+        
+        public void UpdateFileSystem(FileSystem fileSystem)
+        {
+            _fileSystem = fileSystem;
+            _cashFileLists.Clear();
+        }
 
         private void DiskView(List<Disk> disks)
         {
@@ -95,7 +101,9 @@ namespace PaneFileBrowser
                 _cashFileLists.Add(_rootKey, _fileList);
             }
             else
+            {
                 _fileList = _cashFileLists[_rootKey];
+            }
             
             recyclableScrollRect.ReloadData();
         }
@@ -162,7 +170,7 @@ namespace PaneFileBrowser
                 var disk = directory as Disk;
                 AddPlate(new FileElementInfo()
                 {
-                    FileName = $"{disk.Label} ({disk.Name}:)",
+                    FileName = $"{disk.Label} ({disk.Name})",
                     DirectoryCount = directory.Directories?.Count ?? 0,
                     FileCount = directory.Files?.Count ?? 0,
                     icon = driveIcon,

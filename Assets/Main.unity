@@ -5441,6 +5441,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: FileScrollList
       objectReference: {fileID: 0}
+    - target: {fileID: 1558863230554074382, guid: cab8e2aaccaa1194292fb18e144dcbf4, type: 3}
+      propertyPath: IsGrid
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1558863230554074382, guid: cab8e2aaccaa1194292fb18e144dcbf4, type: 3}
+      propertyPath: m_MovementType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1668692719357741546, guid: cab8e2aaccaa1194292fb18e144dcbf4, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
