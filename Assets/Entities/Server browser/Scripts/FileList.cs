@@ -12,7 +12,7 @@ using File = MessageObjects.File;
 
 namespace PaneFileBrowser
 {
-     public class FileList : MonoBehaviour, IRecyclableScrollRectDataSource
+    public class FileList : MonoBehaviour, IRecyclableScrollRectDataSource
     {
         [SerializeField]
         private Sprite driveIcon;
@@ -31,6 +31,9 @@ namespace PaneFileBrowser
         //Data List
         private List<FileElementInfo> _fileList;
 
+        private Dictionary<string, List<FileElementInfo>> _cashFileLists;
+        private readonly string _rootKey = "root";
+
         //Recyclable scroll rect's data source must be assigned in Awake.
         private void Awake()
         {
@@ -42,7 +45,8 @@ namespace PaneFileBrowser
         private void InitData()
         {
             _fileList = new List<FileElementInfo>();
-            if (_fileList != null) _fileList.Clear();
+            _cashFileLists = new Dictionary<string, List<FileElementInfo>>();
+            _fileList?.Clear();
         }
 
         private void OnValidate()
@@ -78,30 +82,44 @@ namespace PaneFileBrowser
 
         private void DiskView(List<Disk> disks)
         {
-            _fileList.Clear();
             if (disks == null) return;
-
-            foreach (var disk in disks)
+            if (!_cashFileLists.ContainsKey(_rootKey))
             {
-                var element = CreateFileElementInfo(disk);
-                AddPlate(element);
+                _fileList = new List<FileElementInfo>();
+                foreach (var disk in disks)
+                {
+                    var element = CreateFileElementInfo(disk);
+                    AddPlate(element);
+                }
+
+                _cashFileLists.Add(_rootKey, _fileList);
             }
+            else
+                _fileList = _cashFileLists[_rootKey];
+            
             recyclableScrollRect.ReloadData();
         }
 
 
         private void DirectoriesView(Directory directory)
         {
-            _fileList.Clear();
-            AddLinkToRoot(directory);
-            if (directory.Directories == null) return;
 
-            foreach (var subDirectory in directory.Directories)
+            if (!_cashFileLists.ContainsKey(directory.Name))
             {
-                subDirectory.Root = directory;
-                var element = CreateFileElementInfo(subDirectory);
-                AddPlate(element);
-            }
+                _fileList = new List<FileElementInfo>();
+                AddLinkToRoot(directory);
+                if (directory.Directories == null) return;
+
+                foreach (var subDirectory in directory.Directories)
+                {
+                    subDirectory.Root = directory;
+                    var element = CreateFileElementInfo(subDirectory);
+                    AddPlate(element);
+                }
+                _cashFileLists.Add(directory.Name, _fileList);
+            } else
+                _fileList = _cashFileLists[directory.Name];
+
             recyclableScrollRect.ReloadData();
         }
 
@@ -109,7 +127,7 @@ namespace PaneFileBrowser
         {
             return new FileElementInfo()
             {
-                FileName = $"{disk.Label} ({disk.Name}:)",
+                FileName = $"{disk.Label} ({disk.Name})",
                 DirectoryCount = disk.Directories?.Count ?? 0,
                 FileCount = disk.Files?.Count ?? 0,
                 icon = driveIcon,

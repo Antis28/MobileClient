@@ -64,19 +64,26 @@ namespace PaneFileBrowser
                 Debug.Log("Its a disk");
                 return;
             }
-            
-            // get the file attributes for file or directory
-            FileAttributes attr = File.GetAttributes(_fileElementInfo.FileName);
-            
-            //detect whether its a directory or file
-            if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
-                // Its a directory
-                Debug.Log("Its a directory");
-            else
+
+            try
             {
-                Debug.Log("Its a file ");
-                Client.MobileClient.SendMessage("ExecutableFile", _fileElementInfo.FileName);
+                // get the file attributes for file or directory
+                FileAttributes attr = File.GetAttributes(_fileElementInfo.FileName);
+            
+                //detect whether its a directory or file
+                if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
+                    // Its a directory
+                    Debug.Log("Its a directory");
+                else
+                {
+                    Debug.Log("Its a file ");
+                    Client.MobileClient.SendMessage("ExecutableFile", _fileElementInfo.FileName);
+                }
+            } catch (Exception e)
+            {
+                Debug.Log("Its a disk");
             }
+           
         }
     }
 }

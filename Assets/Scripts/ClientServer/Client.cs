@@ -39,7 +39,7 @@ public class Client : MonoBehaviour
         MobileClient = new MobileClient(ipAddressForServer.text);
         
         // Отсылаем запрос на получение фавйловой системы в Json формате
-        SendGetFileSystem();
+        SendGetFileSystem("root");
         ConsoleInTextView.ShowSend("Выслан запрос на JSON.");
 
         var data =  await MobileServer.AwaitMessageAsync();
@@ -49,16 +49,13 @@ public class Client : MonoBehaviour
         var sb = new ServerBrowser(uiFileList);
         sb.ShowInBrowser(data);
         ConsoleInTextView.LogInText("Json в UI завершен.");
-        // Выводим Json в журнал
-        //ConsoleInTextView.ShowSend("Выводим Json в журнал.");
-        //  ConsoleInTextView.LogInText(data);
-
+ 
         ConsoleInTextView.LogInText("StartClientAndServer Ended");
     }
 
-    public void SendGetFileSystem()
+    public void SendGetFileSystem(string path)
     {
-        MobileClient.SendMessage("GetFileSystem");
+        MobileClient.SendMessage("GetFileSystem", path);
     }
 
     public void SendRight10()
