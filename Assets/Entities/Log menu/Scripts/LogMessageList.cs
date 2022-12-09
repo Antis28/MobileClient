@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using PolyAndCode.UI;
 using UnityEngine;
+using TMPro;
 
 namespace PanelLog
 {
@@ -19,14 +20,22 @@ namespace PanelLog
         {
             InitData();
             logScrollList.DataSource = this;
+            
         }
 
         public void AddMessage(string message)
         {
+            //цвет по умолчанию
+            AddMessage(message, Color.black);
+        }
+
+        public void AddMessage(string message, Color color)
+        {
             var obj = new LogElementInfo()
             {
-                id = "item : " + _messageCounter++,
-                Message = message
+                Id = "item : " + _messageCounter++,
+                Message = message,
+                ColorMessage = color
             };
             _messageList.Push(obj);
             logScrollList.ReloadData();
@@ -35,7 +44,6 @@ namespace PanelLog
         private void InitData()
         {
             _messageList = new Stack<LogElementInfo>();
-            if (_messageList != null) _messageList.Clear();
         }
 
         private void OnValidate()

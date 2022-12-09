@@ -75,7 +75,7 @@ namespace PaneFileBrowser
                 if (character == '.')
                 {
                     ConsoleInTextView.LogInText("Exception -> ExecutableFile" + _fileElementInfo.FileName);
-                    Client.MobileClient.SendMessage("ExecutableFile", _fileElementInfo.FileName);
+                    Client.MobileCommandSender.SendCommand("ExecutableFile", _fileElementInfo.FileName);
                     return;
                 }
             }

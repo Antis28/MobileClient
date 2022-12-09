@@ -1,13 +1,10 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-using ClientServer;
 using ConsoleForUnity;
-using PaneFileBrowser;
 using ThreadViewHelper;
 
 public static class MobileServer
@@ -35,11 +32,11 @@ public static class MobileServer
             server.Start();
 
             // ожидаем клиента
-            ConsoleInTextView.ShowSend("Ожидаем клиента Async.");
+            ConsoleInTextView.LogInText("Ожидаем клиента Async.");
             var listener = await server.AcceptTcpClientAsync();
          
             // Получаем сообщение от клиента
-            ConsoleInTextView.ShowSend("Получаем сообщение от клиента.");
+            ConsoleInTextView.LogInText("Получаем сообщение от клиента.");
             var data =  await ReadAndSendSuccessAnswer(listener);
             server.Stop();
             return data;

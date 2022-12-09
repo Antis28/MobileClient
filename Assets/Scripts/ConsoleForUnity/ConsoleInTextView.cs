@@ -8,21 +8,37 @@ using UnityEngine;
 
 namespace ConsoleForUnity
 {
-    public class ConsoleInTextView
+    public static class ConsoleInTextView
     {
         private static TextMeshProUGUI _console;
         private static LogMessageList _console2;
 
-        public static void LogInText(string msg)
+
+        private static readonly Color _defaultColor;
+
+        static ConsoleInTextView()
         {
-            //_console.text = $"{msg}\n{_console.text}" ;
-            _console2.AddMessage(msg);
-            Debug.Log(msg);
+            _defaultColor = new Color(0.1647059f, 0, 0.4823529f, 1);
         }
 
+        public static void LogInText(string msg)
+        {
+            LogInText(string.Empty, msg, _defaultColor);
+        }
         public static void LogInText(string src, string msg)
         {
-            _console2.AddMessage($"{src} -> {msg}");
+            LogInText(src, msg, _defaultColor);
+        }
+        private static void LogInText(string msg, Color color)
+        {
+            LogInText(string.Empty, msg, color);
+        }
+
+        private static void LogInText(string src, string msg, Color color)
+        {
+            //_console.text = $"{msg}\n{_console.text}" ;
+            _console2.AddMessage(src == string.Empty ? $"{msg}" : $"{src} -> {msg}", color);
+
             Debug.Log($"{src} -> {msg}");
         }
 
@@ -58,22 +74,28 @@ namespace ConsoleForUnity
 
         public static void ShowSend(string message)
         {
-            LogInText($"\nОтправлено: {message}");
+            ShowSend(string.Empty,message);
+        }
+
+        public static void ShowSend(string src, string message)
+        {
+            LogInText(src, $"Отправлено: {message}", Color.blue);
         }
 
         public static void ShowMessage(string message)
         {
-            LogInText($"\nСообщение: {message}");
+            // green color
+            LogInText($"Сообщение: {message}", new Color(0, .5f, 0, 1));
         }
 
         public static void ShowError(Exception e)
         {
-            LogInText($"Error: {e.Message}");
+            ShowError(e.Message);
         }
 
         public static void ShowError(string message)
         {
-            LogInText($"Error: {message}");
+            LogInText($"Error: {message}", Color.red);
         }
 
         public static void WaitUserInput()
@@ -89,7 +111,8 @@ namespace ConsoleForUnity
 
         public static void ShowReceived(string message)
         {
-            LogInText($"Получено: {message}");
+            // LogInText($"Получено: {message}",new Color(.6f,.4f,0,1));
+            LogInText(message,new Color(.6f,.4f,0,1));
         }
     }
 }

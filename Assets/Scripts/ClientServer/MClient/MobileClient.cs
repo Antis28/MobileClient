@@ -26,22 +26,13 @@ namespace MClient
             hostIp = address;
             ConsoleInTextView.LogInText(GetType().Name, hostIp);
         }
-
-        public void SendMessage(string message)
+      
+        public void SendCommand(string command, string argument = null)
         {
             try
             {
-                ConsoleInTextView.LogInText(GetType().Name, hostIp);
-                Connect(hostIp, message);
-            } catch (Exception e) { ConsoleInUnityView.ShowError(e); }
-        }
-
-        public void SendMessage(string message, string argument)
-        {
-            try
-            {
-                ConsoleInTextView.LogInText(GetType().Name, hostIp);
-                Connect(hostIp, message, argument);
+                ConsoleInTextView.ShowSend(GetType().Name, hostIp);
+                Connect(hostIp, command, argument);
             } catch (Exception e) { ConsoleInUnityView.ShowError(e); }
         }
 
@@ -82,7 +73,7 @@ namespace MClient
                 // Для этого надо организовать чтение в цикле как на сервере.
                 Int32 bytes = await stream.ReadAsync(data, 0, data.Length);
                 var responseData = System.Text.Encoding.UTF8.GetString(data, 0, bytes);
-                ConsoleInTextView.ShowMessage(responseData);
+                ConsoleInTextView.ShowReceived(responseData);
 
                 // Закрываем всё.
                 stream.Close();

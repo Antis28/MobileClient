@@ -40,7 +40,8 @@ namespace PanelLog
             _logElementInfo = logElementInfo;
             
             nameLabel.text = _logElementInfo.Message;
-            idLabel.text = _logElementInfo.id;
+            nameLabel.color = logElementInfo.ColorMessage;
+            idLabel.text = _logElementInfo.Id;
         }
         
         private void ButtonListener()

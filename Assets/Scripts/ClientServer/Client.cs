@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 using ClientServer;
 using UnityEngine;
 using MClient;
@@ -22,7 +21,9 @@ public class Client : MonoBehaviour
     [SerializeField]
     private TMP_Text playerNameText;
 
-    public static MobileClient MobileClient;
+    private static MobileClient _mobileCommandSender;
+
+    public static MobileClient MobileCommandSender => _mobileCommandSender;
     //private MobileServer mobileServer;
 
     // Start is called before the first frame update
@@ -33,98 +34,91 @@ public class Client : MonoBehaviour
         LogMessageList myMessageList = FindObjectOfType<LogMessageList>();
         ConsoleInTextView.Init(myMessageList);
         ipAddressForServer.text = "192.168.0.101";
+
+        _mobileCommandSender = new MobileClient(ipAddressForServer.text);
     }
 
-    public async void StartClientAndServer()
+    public async void StartServer()
     {
-        MobileClient = new MobileClient(ipAddressForServer.text);
+        ConsoleInTextView.LogInText("--->StartServer Start");
 
         // Отсылаем запрос на получение фавйловой системы в Json формате
-        SendGetFileSystem(null);
-        ConsoleInTextView.ShowSend("Выслан запрос на JSON.");
+        SendGetFileSystem("4");
+        ConsoleInTextView.LogInText("Выслан запрос на JSON.");
 
         var data = await MobileServer.AwaitMessageAsync();
 
+        uiFileList.gameObject.SetActive(true);
         // Выводим Json в UI
-        ConsoleInTextView.ShowSend("Выводим Json в UI.");
+        ConsoleInTextView.LogInText("Выводим Json в UI.");
         var sb = new ServerBrowser(uiFileList);
         sb.ShowInBrowser(data);
         ConsoleInTextView.LogInText("Json в UI завершен.");
 
-        await Task.Delay(5000);
-        // Поторно запрашиваем файловую систему, но уже глубже
-        SendGetFileSystem("4");
-        ConsoleInTextView.ShowSend("Выслан повторный запрос на JSON.");
-        data = await MobileServer.AwaitMessageAsync();
-        
-        sb.UpdateFs(data);
-
-        ConsoleInTextView.LogInText("StartClientAndServer Ended");
+       
+        ConsoleInTextView.LogInText("--->StartServer End");
     }
 
     public void SendGetFileSystem(string deep)
     {
-        if (string.IsNullOrEmpty(deep))
-        {
-            deep = "1";
-        }
-        
-        MobileClient.SendMessage("GetFileSystem", deep);
+        if (string.IsNullOrEmpty(deep)) { deep = "1"; }
+
+        MobileCommandSender.SendCommand("GetFileSystem", deep);
     }
 
     public void SendRight10()
     {
-        MobileClient.SendMessage("Right x 10", _playerName);
+        MobileCommandSender.SendCommand("Right x 10", _playerName);
     }
 
     public void SendRight()
     {
-        MobileClient.SendMessage("Right", _playerName);
+        MobileCommandSender.SendCommand("Right", _playerName);
     }
 
     public void SendLeft10()
     {
-        MobileClient.SendMessage("Left x 10", _playerName);
+        MobileCommandSender.SendCommand("Left x 10", _playerName);
     }
 
     public void SendLeft()
     {
-        MobileClient.SendMessage("Left", _playerName);
+        MobileCommandSender.SendCommand("Left", _playerName);
     }
 
     public void SendVolumeH()
     {
-        MobileClient.SendMessage("Volume +", _playerName);
+        MobileCommandSender.SendCommand("Volume +", _playerName);
     }
 
     public void SendVolumeL()
     {
-        MobileClient.SendMessage("Volume -", _playerName);
+        MobileCommandSender.SendCommand("Volume -", _playerName);
     }
 
     public void SendVolumeMute()
     {
-        MobileClient.SendMessage("Mute", _playerName);
+        MobileCommandSender.SendCommand("Mute", _playerName);
     }
 
     public void SendPageDown()
     {
-        MobileClient.SendMessage("PageDown", _playerName);
+        MobileCommandSender.SendCommand("PageDown", _playerName);
     }
 
     public void SendPageUp()
     {
-        MobileClient.SendMessage("PageUp", _playerName);
+        MobileCommandSender.SendCommand("PageUp", _playerName);
     }
 
     public void SendHibernate()
     {
-        MobileClient.SendMessage("Hibernate", _playerName);
+        MobileCommandSender.SendCommand("Hibernate", _playerName);
     }
 
     public void SendStandBy()
     {
-        MobileClient.SendMessage("StandBy", _playerName);
+        MobileCommandSender.SendCommand("StandBy", _playerName);
     }
 
     /// <summary>
@@ -132,7 +126,7 @@ public class Client : MonoBehaviour
     /// </summary>
     public void SendSpace()
     {
-        MobileClient.SendMessage("Space", _playerName);
+        MobileCommandSender.SendCommand("Space", _playerName);
     }
 
     public void SendWol()
@@ -146,12 +140,12 @@ public class Client : MonoBehaviour
 
     public void SendSaveName()
     {
-        MobileClient.SendMessage("SaveName");
+        MobileCommandSender.SendCommand("SaveName");
     }
 
-    public void SwitchPlayerName(string name)
+    public void SwitchPlayerName(string playerName)
     {
-        playerNameText.text = name;
-        _playerName = name;
+        playerNameText.text = playerName;
+        _playerName = playerName;
     }
 }
