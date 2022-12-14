@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using PaneFileBrowser;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using ConsoleForUnity;
 using MessageObjects;
 using UnityEngine;
@@ -28,17 +29,28 @@ namespace ClientServer
             // ReadJson();
         }
 
-        public void ShowInBrowser(string data)
+
+        public async Task ShowInBrowser(string data)
         {
-            var fileSystem = DeserializeData(data);
+            ConsoleInTextView.LogInText("DeserializeData - START");
+            var fileSystem = await DeserializeDataAsync(data);
             if (fileSystem == null) return;
-            
+
+            ConsoleInTextView.LogInText("DeserializeData - END");
+            ConsoleInTextView.LogInText("BuildView - START");
             _uiFileList.BuildView(fileSystem);
+            ConsoleInTextView.LogInText("BuildView - END");
+        }
+
+        private static Task<FileSystem> DeserializeDataAsync(string data)
+        {
+            return Task.Run(() => DeserializeData(data));
         }
 
         private static FileSystem DeserializeData(string data)
         {
             FileSystem myDeserializedClass = null;
+
             try { myDeserializedClass = JsonConvert.DeserializeObject<FileSystem>(data); } catch (Exception e)
             {
                 ConsoleInTextView.LogInText(e.Message);
@@ -52,7 +64,7 @@ namespace ClientServer
         {
             var fileSystem = DeserializeData(data);
             if (fileSystem == null) return;
-            
+
             _uiFileList.UpdateFileSystem(fileSystem);
         }
 

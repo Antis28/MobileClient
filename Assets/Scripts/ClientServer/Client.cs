@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Threading.Tasks;
 using ClientServer;
 using UnityEngine;
 using MClient;
@@ -40,22 +42,40 @@ public class Client : MonoBehaviour
 
     public async void StartServer()
     {
+       // StartCoroutine(StartServerCorut());
+        await StartServerAsync();
+    }
+
+    private IEnumerator StartServerCorut()
+    {
+        var oper = StartServerAsync();
+        while ( !oper.IsCompleted)
+        {
+            yield return null;
+        }
+       
+    }
+
+    private async Task StartServerAsync()
+    {
         ConsoleInTextView.LogInText("--->StartServer Start");
 
         // Отсылаем запрос на получение фавйловой системы в Json формате
         SendGetFileSystem("4");
+        
         ConsoleInTextView.LogInText("Выслан запрос на JSON.");
-
         var data = await MobileServer.AwaitMessageAsync();
-
+       
         uiFileList.gameObject.SetActive(true);
+       
         // Выводим Json в UI
         ConsoleInTextView.LogInText("Выводим Json в UI.");
         var sb = new ServerBrowser(uiFileList);
-        sb.ShowInBrowser(data);
+      
+        ConsoleInTextView.LogInText("Построение UI.");
+        await sb.ShowInBrowser(data);
         ConsoleInTextView.LogInText("Json в UI завершен.");
 
-       
         ConsoleInTextView.LogInText("--->StartServer End");
     }
 

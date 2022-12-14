@@ -31,7 +31,7 @@ namespace MClient
         {
             try
             {
-                ConsoleInTextView.ShowSend(GetType().Name, hostIp);
+                ConsoleInTextView.LogInText(GetType().Name, hostIp);
                 Connect(hostIp, command, argument);
             } catch (Exception e) { ConsoleInUnityView.ShowError(e); }
         }
