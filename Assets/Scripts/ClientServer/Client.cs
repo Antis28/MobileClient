@@ -43,17 +43,14 @@ public class Client : MonoBehaviour
 
     public async void StartServer()
     {
-       // StartCoroutine(StartServerCorut());
+        // StartCoroutine(StartServerCorut());
         await StartServerAsync();
     }
 
     private IEnumerator StartServerCoroutine()
     {
         var operation = StartServerAsync();
-        while ( !operation.IsCompleted || !operation.IsFaulted)
-        {
-            yield return null;
-        }
+        while (!operation.IsCompleted || !operation.IsFaulted) { yield return null; }
     }
 
     private async Task StartServerAsync()
@@ -62,16 +59,16 @@ public class Client : MonoBehaviour
 
         // Отсылаем запрос на получение фавйловой системы в Json формате
         SendGetFileSystem("4");
-        
+
         ConsoleInTextView.LogInText("Выслан запрос на JSON.");
         var data = await MobileServer.AwaitMessageAsync();
-       
+
         uiFileList.gameObject.SetActive(true);
-       
+
         // Выводим Json в UI
         ConsoleInTextView.LogInText("Выводим Json в UI.");
         var sb = new ServerBrowser(uiFileList);
-      
+
         ConsoleInTextView.LogInText("Построение UI.");
         await sb.ShowInBrowser(data);
         ConsoleInTextView.LogInText("Построение UI завершено.");
@@ -161,6 +158,11 @@ public class Client : MonoBehaviour
     public void SendSaveName()
     {
         MobileCommandSender.SendCommand("SaveName");
+    }
+
+    public void SendLoadMovie()
+    {
+        MobileCommandSender.SendCommand("LoadLastMovie");
     }
 
     public void SwitchPlayerName(string playerName)
