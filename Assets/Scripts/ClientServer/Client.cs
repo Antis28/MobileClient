@@ -9,6 +9,7 @@ using ConsoleForUnity;
 using PaneFileBrowser;
 using PanelLog;
 using ThreadViewHelper;
+using Unity.VisualScripting;
 
 public class Client : MonoBehaviour
 {
@@ -46,14 +47,13 @@ public class Client : MonoBehaviour
         await StartServerAsync();
     }
 
-    private IEnumerator StartServerCorut()
+    private IEnumerator StartServerCoroutine()
     {
-        var oper = StartServerAsync();
-        while ( !oper.IsCompleted)
+        var operation = StartServerAsync();
+        while ( !operation.IsCompleted || !operation.IsFaulted)
         {
             yield return null;
         }
-       
     }
 
     private async Task StartServerAsync()
@@ -74,7 +74,7 @@ public class Client : MonoBehaviour
       
         ConsoleInTextView.LogInText("Построение UI.");
         await sb.ShowInBrowser(data);
-        ConsoleInTextView.LogInText("Json в UI завершен.");
+        ConsoleInTextView.LogInText("Построение UI завершено.");
 
         ConsoleInTextView.LogInText("--->StartServer End");
     }

@@ -38,7 +38,7 @@ namespace PanelLog
                 ColorMessage = color
             };
             _messageList.Push(obj);
-            logScrollList.ReloadData();
+           // logScrollList.ReloadData();
         }
 
         private void InitData()
